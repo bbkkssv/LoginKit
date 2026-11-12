@@ -21,14 +21,23 @@ struct LoginScreen {
         if rememberMe {
             setRememberMe(true)
         }
-        emailField.tap()
-        emailField.typeText(email)
-        passwordField.tap()
-        passwordField.typeText(password)
+        replaceText(in: emailField, with: email)
+        replaceText(in: passwordField, with: password)
+        XCTAssertTrue(loginButton.wait(until: "isEnabled == true"))
         loginButton.tap()
         return self
     }
     
+    private func replaceText(in field: XCUIElement, with text: String) {
+        XCTAssertTrue(field.waitUntilHittable())
+        field.tap()
+        if let value = field.value as? String, value != field.placeholderValue, !value.isEmpty {
+            // Secure fields expose bullets; their count still lets us delete the old password.
+            field.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: value.count))
+        }
+        field.typeText(text)
+    }
+
     @discardableResult
     func setRememberMe(_ on: Bool) -> Self {
         let isOn = (rememberMe.value as? String) == "1"

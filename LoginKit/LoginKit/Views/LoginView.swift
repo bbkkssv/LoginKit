@@ -71,9 +71,7 @@ struct LoginView: View {
                     }
                 }
                 .accessibilityIdentifier("login_button")
-                // TODO (Exercise 7): also disable while email or password is empty
-                // TODO (Exercise 10): also disable when the user is locked out
-                .disabled(viewModel.isLoading || viewModel.email.isEmpty || viewModel.password.isEmpty)
+                .disabled(viewModel.isLoading || viewModel.isLockedOut || viewModel.email.isEmpty || viewModel.password.isEmpty)
             }
             .padding()
             .navigationDestination(item: $viewModel.loggedInUser) { user in

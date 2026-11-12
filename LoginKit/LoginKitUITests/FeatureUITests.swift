@@ -54,6 +54,7 @@ final class FeatureUITests: XCTestCase {
     func test_threeFailedLogins_locksTheLoginButton() throws {
         for _ in 1...2 {
             loginScreen.login(email: "wrong@mail.com", password: "nope")
+            XCTAssertTrue(loginScreen.errorLabel.wait(until: "exists == true AND label == 'Invalid email or password'"))
             XCTAssertTrue(loginScreen.loginButton.wait(until: "isEnabled == true"))
         }
 
