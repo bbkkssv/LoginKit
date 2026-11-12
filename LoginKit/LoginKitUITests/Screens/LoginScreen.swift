@@ -40,10 +40,13 @@ struct LoginScreen {
 
     @discardableResult
     func setRememberMe(_ on: Bool) -> Self {
+        XCTAssertTrue(rememberMe.waitUntilHittable(), "Remember Me toggle never became hittable")
         let isOn = (rememberMe.value as? String) == "1"
         if isOn != on {
             rememberMe.coordinate(withNormalizedOffset: CGVector(dx: 0.92, dy: 0.5)).tap()
         }
+        let expectedValue = on ? "1" : "0"
+        XCTAssertTrue(rememberMe.wait(until: "value == '\(expectedValue)'"), "Remember Me did not reach the requested state")
         return self
     }
     

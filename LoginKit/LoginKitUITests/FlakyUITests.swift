@@ -29,8 +29,7 @@ final class FlakyUITests: XCTestCase {
         loginScreen.login(email: "test@mail.com", password: "test1234")
         XCTAssertTrue(dashboardScreen.welcomeLabel.waitForExistence(timeout: 5))
 
-        XCTAssertTrue(dashboardScreen.logoutButton.wait(until: "isEnabled == true"))
-        dashboardScreen.logoutButton.tap()
+        dashboardScreen.logout()
 
         XCTAssertTrue(loginScreen.emailField.waitForExistence(timeout: 5))
     }
